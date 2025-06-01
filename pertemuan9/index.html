@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konversi Bilangan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input, button {
+            margin: 10px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Konversi Bilangan</h2>
+        <input type="number" id="decimalInput" placeholder="Masukkan Bilangan Desimal">
+        <button onclick="convert()">Konversi</button>
+    </div>
+
+    <script>
+        function convert() {
+            const input = document.getElementById('decimalInput').value;
+
+            if (isNaN(input) || input === '' || input < 0) {
+                alert("Masukkan Angka yang benar!");
+            } else {
+                const decimal = parseInt(input);
+                const binary = decimal.toString(2);
+                const octal = decimal.toString(8);
+                const hex = decimal.toString(16).toUpperCase();
+                alert(`Biner: ${binary}\nOktal: ${octal}\nHeksadesimal: ${hex}`);
+                document.getElementById('decimalInput').value = '';
+            }
+        }
+    </script>
+</body>
+</html>
