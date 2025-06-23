@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Perpustakaan</title>
+  <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    input, select {
+      margin: 5px;
+      padding: 8px;
+    }
+    .book-list {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .book-card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      width: 200px;
+      padding: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    .book-card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+    }
+    .radio-group {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const books = [
+      {
+        title: "Menguasai Pemrograman Berorientasi Objek",
+        author: "Ade Rahmat Iskandar",
+        publisher: "Informatika",
+        year: 2020,
+        image: "pbo.jpeg"
+      },
+      {
+        title: "Dasar-Dasar Pemrograman dengan .NET",
+        author: "Ade Rahmat Iskandar",
+        publisher: "Informatika",
+        year: 2019,
+        image: "ddp.jpg"
+      },
+      {
+        title: "Metodologi Pengembangan Sistem Informasi",
+        author: "Samiaji Sarosa",
+        publisher: "Indeks",
+        year: 2017,
+        image: "mps.jpeg"
+      },
+      {
+        title: "Struktur Data",
+        author: "Rosa A.S",
+        publisher: "Modula",
+        year: 2018,
+        image: "std.jpeg"
+      },
+      {
+        title: "Dasar Pemrograman Python 3",
+        author: "Abdul Kadir",
+        publisher: "Andi Publisher",
+        year: 2018,
+        image: "python.jpeg"
+      },
+      {
+        title: "Teori dan Praktek Sistem Operasi",
+        author: "Zaki Romygar Ma’rif",
+        publisher: "Andi Publisher",
+        year: 2018,
+        image: "sisop.jpeg"
+      },
+      {
+        title: "Sistem Basis Data Dan SQL",
+        author: "Didik Setyadi",
+        publisher: "Mitra Wacana Media",
+        year: 2020,
+        image: "sql.jpeg"
+      }
+    ];
+
+    const popularBooks = [
+      books.find(b => b.title === "Menguasai Pemrograman Berorientasi Objek"),
+      books.find(b => b.title === "Dasar Pemrograman Python 3"),
+      books.find(b => b.title === "Sistem Basis Data Dan SQL")
+    ];
+
+    function App() {
+      const [searchTerm, setSearchTerm] = React.useState("");
+      const [filterBy, setFilterBy] = React.useState("title");
+      const [year, setYear] = React.useState("2018");
+
+      const filteredBooks = books.filter(book => {
+        const term = searchTerm.toLowerCase();
+        switch (filterBy) {
+          case "title":
+            return book.title.toLowerCase().includes(term);
+          case "author":
+            return book.author.toLowerCase().includes(term);
+          case "publisher":
+            return book.publisher.toLowerCase().includes(term);
+          case "title & year":
+            return (
+              book.title.toLowerCase().includes(term) &&
+              book.year.toString() === year
+            );
+          default:
+            return true;
+        }
+      });
+
+      return (
+        <div>
+          <h2>Perpustakaan Digital</h2>
+
+          {/* Popular Books Section */}
+          <h3>Popular</h3>
+          <div className="book-list">
+            {popularBooks.map((book, index) => (
+              <div key={index} className="book-card">
+                <img src={book.image} alt={book.title} />
+                <h4>{book.title}</h4>
+                <p>{book.author}</p>
+                <p><em>{book.publisher} {book.year}</em></p>
+              </div>
+            ))}
+          </div>
+
+          {/* Filtered Book List */}
+          <h3 style={{ marginTop: "30px" }}>Our Books</h3>
+          <div className="book-list">
+            {filteredBooks.length > 0 ? (
+              filteredBooks.map((book, index) => (
+                <div key={index} className="book-card">
+                  <img src={book.image} alt={book.title} />
+                  <h4>{book.title}</h4>
+                  <p>{book.author}</p>
+                  <p><em>{book.publisher} {book.year}</em></p>
+                </div>
+              ))
+            ) : (
+              <p>Tidak ditemukan buku yang sesuai.</p>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
